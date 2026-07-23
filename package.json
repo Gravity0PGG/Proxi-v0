@@ -16,7 +16,6 @@
     "@supabase/supabase-js": "^2.89.0",
     "base64-arraybuffer": "^1.0.2",
     "expo": "~57.0.8",
-    "expo-av": "~16.0.8",
     "expo-blur": "~57.0.2",
     "expo-camera": "~57.0.3",
     "expo-clipboard": "~57.0.1",
@@ -35,6 +34,7 @@
     "expo-splash-screen": "~57.0.1",
     "expo-sqlite": "~57.0.1",
     "expo-status-bar": "~57.0.1",
+    "expo-video": "~57.0.2",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-native": "0.86.0",
@@ -54,14 +54,5 @@
     "babel-preset-expo": "~57.0.0",
     "react-refresh": "^0.17.0",
     "typescript": "~6.0.3"
-  },
-  "expo": {
-    "doctor": {
-      "reactNativeDirectoryCheck": {
-        "exclude": [
-          "expo-av"
-        ]
-      }
-    }
   }
 }

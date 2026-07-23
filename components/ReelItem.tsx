@@ -7,7 +7,7 @@ import {
     Dimensions,
     TouchableOpacity
 } from 'react-native';
-import { Video, ResizeMode, AVPlaybackStatus } from 'expo-av';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import { Post } from '../types/post.types';
 import { Ionicons } from '@expo/vector-icons';
 import { reportWatchTime, reportReplay } from '../services/reelsSession.service';
@@ -20,10 +20,13 @@ interface ReelItemProps {
 }
 
 export default function ReelItem({ post, isActive }: ReelItemProps) {
-    const videoRef = React.useRef<Video>(null);
     const [watchProgress, setWatchProgress] = React.useState(0);
     const lastReportedPercent = React.useRef(-1); // Track last integer percent
     const isFocused = useIsFocused();
+
+    const player = useVideoPlayer(post.mediaUrl, (p) => {
+        p.loop = true;
+    });
 
     // Reset percentage when video changes
     React.useEffect(() => {
@@ -31,52 +34,49 @@ export default function ReelItem({ post, isActive }: ReelItemProps) {
         lastReportedPercent.current = -1;
     }, [post.postId]);
 
-    const handlePlaybackStatusUpdate = (status: AVPlaybackStatus) => {
-        if (!status.isLoaded) return;
-
-        if (status.durationMillis && status.durationMillis > 0) {
-            // Calculate percentage
-            const percentage = (status.positionMillis / status.durationMillis) * 100;
-            const integerPercent = Math.floor(percentage);
-
-            // OPTIMIZATION: Only update state if integer value changed
-            if (integerPercent !== lastReportedPercent.current) {
-                lastReportedPercent.current = integerPercent;
-                setWatchProgress(percentage);
-
-                // Sync with session store
-                reportWatchTime(post.postId, status.positionMillis, status.durationMillis / 1000);
-            }
+    React.useEffect(() => {
+        if (!player) return;
+        if (isActive && isFocused) {
+            player.play();
+        } else {
+            player.pause();
         }
-
-        if (status.didJustFinish) {
-            handleReplay();
-        }
-    };
+    }, [isActive, isFocused, player]);
 
     React.useEffect(() => {
-        if (isActive && isFocused) {
-            videoRef.current?.playAsync();
-        } else {
-            videoRef.current?.pauseAsync();
-        }
-    }, [isActive, isFocused]);
+        if (!player) return;
 
-    const handleReplay = () => {
-        reportReplay(post.postId);
-    };
+        const timeSub = player.addListener('timeUpdate', (event) => {
+            if (player.duration > 0) {
+                const percentage = (event.currentTime / player.duration) * 100;
+                const integerPercent = Math.floor(percentage);
+
+                if (integerPercent !== lastReportedPercent.current) {
+                    lastReportedPercent.current = integerPercent;
+                    setWatchProgress(percentage);
+                    reportWatchTime(post.postId, event.currentTime * 1000, player.duration);
+                }
+            }
+        });
+
+        const replaySub = player.addListener('playToEnd', () => {
+            reportReplay(post.postId);
+        });
+
+        return () => {
+            timeSub.remove();
+            replaySub.remove();
+        };
+    }, [player, post.postId]);
 
     return (
         <View style={styles.container}>
             {/* Video Player */}
-            <Video
-                ref={videoRef}
-                source={{ uri: post.mediaUrl }}
+            <VideoView
+                player={player}
                 style={styles.media}
-                resizeMode={ResizeMode.COVER}
-                isLooping
-                shouldPlay={isActive && isFocused}
-                onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
+                contentFit="cover"
+                nativeControls={false}
             />
 
             {/* Progress Bar at Bottom */}
