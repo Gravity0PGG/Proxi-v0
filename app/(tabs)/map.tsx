@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import { View, StyleSheet, Animated, Dimensions } from 'react-native';
 import MapView from 'react-native-maps';
-import { useRouter } from 'expo-router';
-import { useFocusEffect } from '@react-navigation/native';
+import { useRouter, useFocusEffect } from 'expo-router';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
