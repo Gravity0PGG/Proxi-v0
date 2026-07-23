@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "PROXI",
+    "slug": "proxi",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "proxi",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Allow PROXI to access your camera to take photos and videos.",
+        "NSMicrophoneUsageDescription": "Allow PROXI to access your microphone for video recording.",
+        "NSPhotoLibraryUsageDescription": "Allow PROXI to access your photos to share them.",
+        "NSLocationWhenInUseUsageDescription": "Allow PROXI to access your location to share it in chat.",
+        "NSFaceIDUsageDescription": "Allow access to FaceID for secure authentication."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
