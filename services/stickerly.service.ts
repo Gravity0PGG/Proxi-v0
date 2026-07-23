@@ -91,7 +91,8 @@ export const downloadStickerPack = async (inputCode: string) => {
         }
 
         // 4. Download Logic
-        const stickersDir = `${FileSystem.documentDirectory}stickers/${packId}/`;
+        const docDir = (FileSystem as any).documentDirectory || (FileSystem as any).Paths?.document?.uri || '';
+        const stickersDir = `${docDir}stickers/${packId}/`;
 
         const dirInfo = await FileSystem.getInfoAsync(stickersDir);
         if (!dirInfo.exists) {
@@ -130,8 +131,8 @@ export const downloadStickerPack = async (inputCode: string) => {
         await saveStickerPack(pack, savedStickers);
         return { success: true, count: savedStickers.length, name };
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('[Stickerly] Error downloading pack:', error);
-        return { success: false, error: error.message || error };
+        return { success: false, error: error?.message || String(error) };
     }
 };

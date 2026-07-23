@@ -311,8 +311,8 @@ export default function ProfileSetupScreen() {
             await setProfileComplete(true);
 
             // Trigger navigation guard refresh
-            if ((global as any).refreshAuth) {
-                (global as any).refreshAuth();
+            if ((globalThis as any).refreshAuth) {
+                (globalThis as any).refreshAuth();
             }
 
             // Navigate to main app
@@ -511,7 +511,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     avatarOverlay: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFill,
         borderRadius: 60,
         backgroundColor: 'rgba(0,0,0,0.5)',
         justifyContent: 'center',

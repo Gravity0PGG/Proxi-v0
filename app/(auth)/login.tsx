@@ -39,8 +39,8 @@ export default function LoginScreen() {
 
             if (result.success) {
                 // Let _layout.tsx guard handle navigation based on profile complete status
-                if ((global as any).refreshAuth) {
-                    (global as any).refreshAuth();
+                if ((globalThis as any).refreshAuth) {
+                    (globalThis as any).refreshAuth();
                 }
             } else {
                 setError(result.error || 'Login failed');

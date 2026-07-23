@@ -221,7 +221,7 @@ export default function ChatAttachmentMenu({
 
 const styles = StyleSheet.create({
     overlay: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFill,
         backgroundColor: 'transparent',
         zIndex: 998,
     },

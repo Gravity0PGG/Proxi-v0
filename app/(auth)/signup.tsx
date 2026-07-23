@@ -64,8 +64,8 @@ export default function SignupScreen() {
                     setShowVerificationMessage(true);
                 } else {
                     // Trigger auth refresh if no verification needed
-                    if ((global as any).refreshAuth) {
-                        (global as any).refreshAuth();
+                    if ((globalThis as any).refreshAuth) {
+                        (globalThis as any).refreshAuth();
                     }
                 }
             } else {

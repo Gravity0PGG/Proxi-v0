@@ -18,7 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Message } from '../types/messaging.types';
-import { POPULAR_EMOJIS } from '../constants/emojis';
+import { POPULAR_EMOJIS, EmojiCategory } from '../constants/emojis';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -74,8 +74,8 @@ export default function ChatContextOverlay({
         // Helper to check keywords
         const checkKeywords = (keywords: string[], q: string) => keywords.some(k => k.includes(q));
 
-        const searchResults = POPULAR_EMOJIS.flatMap(cat => cat.emojis)
-            .filter(emoji =>
+        const searchResults = POPULAR_EMOJIS.flatMap((cat: EmojiCategory) => cat.emojis)
+            .filter((emoji: { char: string; keywords: string[] }) =>
                 emoji.char === query || checkKeywords(emoji.keywords, query)
             );
 
@@ -515,7 +515,7 @@ export default function ChatContextOverlay({
 
                 {/* Emoji Grid - Using FlatList for proper scroll bounds */}
                 <FlatList
-                    data={filteredEmojis.flatMap(cat => cat.emojis)}
+                    data={filteredEmojis.flatMap((cat: EmojiCategory) => cat.emojis)}
                     keyExtractor={(item) => item.char}
                     numColumns={8}
                     showsVerticalScrollIndicator={false}

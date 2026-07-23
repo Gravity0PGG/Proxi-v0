@@ -52,8 +52,8 @@ export default function RootLayout() {
                         setIsProfileComplete(complete);
 
                         // Trigger global refresh
-                        if ((global as any).refreshAuth) {
-                            (global as any).refreshAuth();
+                        if ((globalThis as any).refreshAuth) {
+                            (globalThis as any).refreshAuth();
                         }
                     } else if (error) {
                         console.error('[DeepLink] Session error:', error);
@@ -168,7 +168,7 @@ export default function RootLayout() {
     }, [isAuth, isProfileComplete, segments, isLoading]);
 
     // Function to refresh auth state (can be called from auth screens)
-    (global as any).refreshAuth = async () => {
+    (globalThis as any).refreshAuth = async () => {
         const authState = getAuthState();
         setIsAuth(authState);
         if (authState) {

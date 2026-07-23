@@ -24,6 +24,7 @@ export async function requestFeedByLocation(params: FeedRequestParams) {
     try {
         // Simulate minor async delay for ranking
         const rankedIds = rankFeed(
+            'system',
             { latitude: params.lat, longitude: params.lng },
             50, // pool size
             params.radius / 1000 // meters to km

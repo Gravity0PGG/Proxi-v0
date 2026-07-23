@@ -408,7 +408,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     avatarOverlay: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFill,
         borderRadius: 50,
         backgroundColor: 'rgba(0,0,0,0.5)',
         justifyContent: 'center',
